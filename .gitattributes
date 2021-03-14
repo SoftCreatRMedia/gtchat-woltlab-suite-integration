@@ -1,0 +1,13 @@
+# Auto detect text files and perform LF normalization
+*          text=auto
+
+# Documents
+*.html     text eol=lf
+*.md       text eol=lf
+
+#
+# Exclude files from exporting
+#
+
+.gitattributes export-ignore
+.gitignore     export-ignore
