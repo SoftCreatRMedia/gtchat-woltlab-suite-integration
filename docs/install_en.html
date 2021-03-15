@@ -1145,7 +1145,67 @@
                                 </div>
                                 </p>
                                 <br>
-                                <p>When calling this template you will now get a JSON object, which you can read (e.g. via PHP) and display according to your needs.<br>You can call the template by appending <kbd>template=room_users_json</kbd> to the chat URL, e.g. https://chat.example.com/cgi-bin/chat.pl?template=room_users_json</p>
+                                <p>You can call the template by appending <kbd>template=room_users_json</kbd> to the chat URL, e.g. https://chat.example.com/cgi-bin/chat.pl?template=room_users_json<br>When calling this template you will now get a JSON object, which you can read (e.g. via PHP) and display according to your needs:</p>
+                                <br>
+                                <p><strong>PHP:</strong></p>
+                                <p>
+                                <div class="textarea"><pre onclick="selectText(this.id)" id="pre24"><span style="color: #557799">&lt;?php</span>
+
+<span style="color: #888888">// ...</span>
+
+<span style="color: #996633">$chatUsersOnline</span> <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+<span style="color: #996633">$chatUsersList</span> <span style="color: #333333">=</span> [];
+
+<span style="color: #008800; font-weight: bold">try</span> {
+    <span style="color: #996633">$request</span> <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> \wcf\util\HTTPRequest(<span style="background-color: #fff0f0">&#39;https://chat.example.com/cgi-bin/chat.pl?template=room_users_json&#39;</span>);
+    <span style="color: #996633">$request</span><span style="color: #333333">-&gt;</span><span style="color: #0000CC">execute</span>();
+    <span style="color: #996633">$reply</span> <span style="color: #333333">=</span> <span style="color: #996633">$request</span><span style="color: #333333">-&gt;</span><span style="color: #0000CC">getReply</span>();
+    <span style="color: #996633">$chatData</span> <span style="color: #333333">=</span> \wcf\util\JSON<span style="color: #333333">::</span><span style="color: #0000CC">decode</span>(<span style="color: #996633">$reply</span>[<span style="background-color: #fff0f0">&#39;body&#39;</span>]);
+    
+    <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #333333">!</span><span style="color: #008800; font-weight: bold">empty</span>(<span style="color: #996633">$chatData</span>)) {
+        <span style="color: #008800; font-weight: bold">foreach</span> (<span style="color: #996633">$chatData</span>[<span style="background-color: #fff0f0">&#39;rooms&#39;</span>] <span style="color: #008800; font-weight: bold">as</span> <span style="color: #996633">$chatRoom</span>) {
+            <span style="color: #008800; font-weight: bold">foreach</span> (<span style="color: #996633">$chatRoom</span>[<span style="background-color: #fff0f0">&#39;users&#39;</span>] <span style="color: #008800; font-weight: bold">as</span> <span style="color: #996633">$chatUser</span>) {
+                <span style="color: #996633">$userID</span> <span style="color: #333333">=</span> (int)<span style="color: #996633">$chatUser</span>[<span style="background-color: #fff0f0">&#39;userID&#39;</span>];
+
+                <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #333333">!</span><span style="color: #008800; font-weight: bold">empty</span>(<span style="color: #996633">$userID</span>)) {
+                    <span style="color: #996633">$user</span> <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> \wcf\data\user\User(<span style="color: #996633">$userID</span>);
+
+                    <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #996633">$user</span><span style="color: #333333">-&gt;</span><span style="color: #0000CC">userID</span>) {
+                        <span style="color: #996633">$userProfile</span> <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> \wcf\data\user\UserProfile(<span style="color: #996633">$user</span>);
+                        <span style="color: #996633">$userProfile</span><span style="color: #333333">-&gt;</span><span style="color: #0000CC">chatAfk</span> <span style="color: #333333">=</span> <span style="color: #996633">$chatUser</span>[<span style="background-color: #fff0f0">&#39;away&#39;</span>];
+
+                        <span style="color: #996633">$chatUsersOnline</span><span style="color: #333333">++</span>;
+                        <span style="color: #996633">$chatUsersList</span>[] <span style="color: #333333">=</span> <span style="color: #996633">$userProfile</span>;
+                    }
+                }
+            }
+        }
+    }
+} <span style="color: #008800; font-weight: bold">catch</span> (\Exception <span style="color: #996633">$e</span>) {
+}
+
+\wcf\system\WCF<span style="color: #333333">::</span><span style="color: #0000CC">getTPL</span>()<span style="color: #333333">-&gt;</span><span style="color: #0000CC">assign</span>([
+    <span style="background-color: #fff0f0">&#39;chatUsersOnline&#39;</span> <span style="color: #333333">=&gt;</span> <span style="color: #996633">$chatUsersOnline</span>,
+    <span style="background-color: #fff0f0">&#39;chatUsersList&#39;</span> <span style="color: #333333">=&gt;</span> <span style="color: #996633">$chatUsersList</span>
+]);</pre></div>
+                                </p>
+                                <br>
+                                <p><strong>HTML (Template):</strong></p>
+                                <p>
+                                <div class="textarea"><pre onclick="selectText(this.id)" id="pre25"><span style="color: #557799">{</span><span style="color: #0066BB; font-weight: bold">if</span> <span style="color: #996633">$chatUsersOnline</span> <span style="color: #333333">&gt;</span> <span style="color: #6600EE; font-weight: bold">0</span><span style="color: #557799">}</span>
+    <span style="color: #007700">&lt;ul</span> <span style="color: #0000CC">class=</span><span style="background-color: #fff0f0">&quot;inlineList commaSeparated&quot;</span><span style="color: #007700">&gt;</span>
+        <span style="color: #557799">{</span><span style="color: #0066BB; font-weight: bold">foreach</span> <span style="color: #0000CC">from</span><span style="color: #333333">=</span><span style="color: #996633">$chatUsersList</span> <span style="color: #0000CC">item</span><span style="color: #333333">=</span><span style="color: #0000CC">userOnline</span><span style="color: #557799">}</span>
+            <span style="color: #007700">&lt;li&gt;</span><span style="color: #557799">{</span><span style="color: #0066BB; font-weight: bold">user</span> <span style="color: #0000CC">object</span><span style="color: #333333">=</span><span style="color: #996633">$userOnline</span><span style="color: #557799">}{</span><span style="color: #0066BB; font-weight: bold">if</span> <span style="color: #996633">$userOnline</span><span style="color: #333333">-&gt;</span><span style="color: #0000CC">chatAfk</span><span style="color: #557799">}</span> <span style="color: #007700">&lt;span</span> <span style="color: #0000CC">class=</span><span style="background-color: #fff0f0">&quot;jsTooltip&quot;</span> <span style="color: #0000CC">title=</span><span style="background-color: #fff0f0">&quot;Away from keyboard (AFK)&quot;</span><span style="color: #007700">&gt;</span>(AFK)<span style="color: #007700">&lt;/span&gt;</span><span style="color: #557799">{</span><span style="color: #0066BB; font-weight: bold">/if</span><span style="color: #557799">}</span><span style="color: #007700">&lt;/li&gt;</span>
+        <span style="color: #557799">{</span><span style="color: #0066BB; font-weight: bold">/foreach</span><span style="color: #557799">}</span>
+    <span style="color: #007700">&lt;/ul&gt;</span>
+<span style="color: #557799">{</span><span style="color: #0066BB; font-weight: bold">else</span><span style="color: #557799">}</span>
+    <span style="color: #007700">&lt;p&gt;</span>There is currently no one in the chat.<span style="color: #007700">&lt;/p&gt;</span>
+<span style="color: #557799">{</span><span style="color: #0066BB; font-weight: bold">/if</span><span style="color: #557799">}</span>
+
+<span style="color: #007700">&lt;div</span> <span style="color: #0000CC">class=</span><span style="background-color: #fff0f0">&quot;formSubmit&quot;</span><span style="color: #007700">&gt;</span>
+    <span style="color: #007700">&lt;a</span> <span style="color: #0000CC">href=</span><span style="background-color: #fff0f0">&quot;javascript:ChatWindow()&quot;</span> <span style="color: #0000CC">class=</span><span style="background-color: #fff0f0">&quot;button buttonPrimary&quot;</span><span style="color: #007700">&gt;</span>Chat öffnen<span style="color: #007700">&lt;/a&gt;</span>
+<span style="color: #007700">&lt;/div&gt;</span></pre></div>
+                                </p>
                             </label>
                             <span class="num">1</span>
                         </div>
