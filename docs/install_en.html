@@ -235,7 +235,7 @@
             <span style="color: #008800; font-weight: bold">if</span> (<span style="color: #007020">exists</span>(<span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>{cookie}{<span style="color: #996633">$wscCookie</span>}) <span style="color: #333333">&amp;&amp;</span> <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>{cookie}{<span style="color: #996633">$wscCookie</span>} <span style="color: #000000; font-weight: bold">ne</span> <span style="background-color: #fff0f0">&#39;&#39;</span>) {
                 <span style="color: #996633">$wscSessionID</span> <span style="color: #333333">=</span> <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>{cookie}{<span style="color: #996633">$wscCookie</span>};
             } <span style="color: #008800; font-weight: bold">else</span> {
-                <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>fatal_error(<span style="background-color: #fff0f0">&#39;a_nopermission&#39;</span>);
+                <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>fatal_error(<span style="background-color: #fff0f0">&#39;nopermission&#39;</span>);
             }
         } <span style="color: #008800; font-weight: bold">else</span> {
             <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>fatal_error(<span style="background-color: #fff0f0">&#39;bad_config&#39;</span>);
@@ -259,7 +259,7 @@
             }
         }
     } <span style="color: #008800; font-weight: bold">else</span> {
-        <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>fatal_error(<span style="background-color: #fff0f0">&#39;b_nopermission&#39;</span>);
+        <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>fatal_error(<span style="background-color: #fff0f0">&#39;nopermission&#39;</span>);
     }
 }
 
@@ -281,7 +281,7 @@
         <span style="color: #008800; font-weight: bold">return</span> <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>loadUser(<span style="color: #996633">$externalUser</span><span style="color: #333333">-&gt;</span>{name});
     }
     <span style="color: #008800; font-weight: bold">else</span> {
-        <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>fatal_error(<span style="background-color: #fff0f0">&#39;c_nopermission&#39;</span>);
+        <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>fatal_error(<span style="background-color: #fff0f0">&#39;nopermission&#39;</span>);
     }
 }
 
@@ -301,7 +301,7 @@
         <span style="color: #996633">$user</span><span style="color: #333333">-&gt;</span>{registration} <span style="color: #333333">=</span> <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>{runtime}{now} <span style="color: #008800; font-weight: bold">unless</span> <span style="color: #007020">exists</span>(<span style="color: #996633">$user</span><span style="color: #333333">-&gt;</span>{registration});
     }
     <span style="color: #008800; font-weight: bold">else</span> {
-        <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>fatal_error(<span style="background-color: #fff0f0">&#39;d_nopermission&#39;</span>);
+        <span style="color: #996633">$main</span><span style="color: #333333">-&gt;</span>fatal_error(<span style="background-color: #fff0f0">&#39;nopermission&#39;</span>);
     }
 }
 
@@ -1218,9 +1218,9 @@
         <div class="license">
             <p>Copyright (c) 2021, SoftCreatR Media</p>
             <p>Permission to use, copy, modify, and/or distribute this software for any
-            purpose with or without fee is hereby granted, stepided that the above
+            purpose with or without fee is hereby granted, provided that the above
             copyright notice and this permission notice appear in all copies.</p>
-            <p>THE SOFTWARE IS stepIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+            <p>THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
             WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
             MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
             ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
